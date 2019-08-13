@@ -86,7 +86,10 @@ class SqlMagic(Magics, Configurable):
         except Exception as e:
             print(e)
             print(sql.connection.Connection.tell_format())
-            return None
+            if self.short_errors:
+                return None
+            else:
+                raise
 
         if flags.get('persist'):
             return self._persist_dataframe(parsed['sql'], conn, user_ns)
